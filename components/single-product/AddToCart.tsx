@@ -1,8 +1,7 @@
 import React from 'react';
 import { Button } from '../ui/button';
-// { productId }: { productId: string }
 
-function AddToCart() {
+function AddToCart({ productId }: { productId: string }) {
   return (
     <Button className="capitalize mt-8" size="lg">
       add to cart
