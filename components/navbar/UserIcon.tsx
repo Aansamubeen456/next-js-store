@@ -1,5 +1,5 @@
 import React from 'react';
-import { auth, currentUser } from '@clerk/nextjs/server';
+import { currentUser } from '@clerk/nextjs/server';
 import { LuUser2 } from 'react-icons/lu';
 
 async function UserIcon() {
