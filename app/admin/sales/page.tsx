@@ -1,0 +1,58 @@
+import { fetchAdminOrders } from '@/utils/actions';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { formatDate } from '@/utils/format';
+
+async function Sales() {
+  const orders = await fetchAdminOrders();
+  return (
+    <div>
+      <Table>
+        <TableCaption>Total Orders: {orders.length}</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Email</TableHead>
+            <TableHead>Products</TableHead>
+            <TableHead>Order Total</TableHead>
+            <TableHead>Tax</TableHead>
+            <TableHead>Shipping</TableHead>
+            <TableHead>Date</TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          {orders.map((order) => {
+            const {
+              id,
+              products,
+              shipping,
+              tax,
+              orderTotal,
+              email,
+              createdAt,
+            } = order;
+            return (
+              <TableRow key={id}>
+                <TableCell>{email}</TableCell>
+                <TableCell>{products}</TableCell>
+                <TableCell>{orderTotal}</TableCell>
+                <TableCell>{tax}</TableCell>
+                <TableCell>{shipping}</TableCell>
+                <TableCell>{formatDate(createdAt)}</TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
+export default Sales;

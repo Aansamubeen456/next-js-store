@@ -3966,7 +3966,7 @@ import { IconButton } from '@/components/form/Buttons';
 async function ReviewsPage() {
   const reviews = await fetchProductReviewsByUser();
   if (reviews.length === 0)
-    return <SectionTitle text="you have no reviews yet" />;
+    return <SectionTitle text="you have no reviews yet!" />;
 
   return (
     <>
@@ -4483,9 +4483,6 @@ function CartTotals({ cart }: { cart: Cart }) {
           <CartTotalRow label="Order Total" amount={orderTotal} lastRow />
         </CardTitle>
       </Card>
-      <FormContainer action={createOrderAction}>
-        <SubmitButton text="Place Order" className="w-full mt-8" />
-      </FormContainer>
     </div>
   );
 }

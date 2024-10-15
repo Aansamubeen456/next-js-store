@@ -1,7 +1,7 @@
 'use client';
 import { useToast } from '@/hooks/use-toast';
 import { SignOutButton } from '@clerk/nextjs';
-import Link from 'next/link';
+// import Link from 'next/link';
 
 function SignOutLink() {
   const { toast } = useToast();
@@ -9,10 +9,10 @@ function SignOutLink() {
     toast({ description: 'Logging Out...' });
   };
   return (
-    <SignOutButton>
-      <Link href="/" className="w-full text-left" onClick={handleLogout}>
+    <SignOutButton redirectUrl="/">
+      <button className="w-full text-left" onClick={handleLogout}>
         Logout
-      </Link>
+      </button>
     </SignOutButton>
   );
 }

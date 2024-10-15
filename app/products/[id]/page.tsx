@@ -1,16 +1,25 @@
 import React from 'react';
 import BreadCrumbs from '@/components/single-product/BreadCrumbs';
-import { fetchSingleProduct } from '@/utils/actions';
+import { fetchSingleProduct, findExistingReview } from '@/utils/actions';
 import Image from 'next/image';
 import { formatCurrency } from '@/utils/format';
 import FavoriteToggleButton from '@/components/products/FavoriteToggleButton';
 import AddToCart from '@/components/single-product/AddToCart';
 import ProductRating from '@/components/single-product/ProductRating';
+import ShareButton from '@/components/single-product/ShareButton';
+import ProductReviews from '@/components/reviews/ProductReviews';
+import SubmitReview from '@/components/reviews/SubmitReview';
+import { auth } from '@clerk/nextjs/server';
 
 async function SingleProduct({ params }: { params: { id: string } }) {
   const product = await fetchSingleProduct(params.id);
-  const { name, company, price, image, description } = product;
+  const { name, company, price, image, description, id: productId } = product;
   const dollarsAmount = formatCurrency(price);
+
+  const { userId } = auth();
+  // we are looking for null value send by database
+  const reviewDoesnotExist =
+    userId && !(await findExistingReview(productId, userId));
 
   return (
     <section>
@@ -32,20 +41,25 @@ async function SingleProduct({ params }: { params: { id: string } }) {
         <div>
           <div className="flex gap-x-8 items-center">
             <h1 className="capitalize text-3xl font-bold">{name}</h1>
-            {/* <FavoriteToggleButton productId={params.id} /> */}
-            <FavoriteToggleButton />
+            <div className="flex items-center gap-x-2">
+              <FavoriteToggleButton productId={params.id} />
+              <ShareButton productId={params.id} name={name} />
+            </div>
           </div>
-          {/* <ProductRating productId={params.id} /> */}
-          <ProductRating />
+          <ProductRating productId={params.id} />
+
           <h4 className="text-xl mt-2">{company}</h4>
           <p className="mt-3 text-md bg-muted inline-block p-2 rounded-md">
             {dollarsAmount}
           </p>
           <p className="leading-8 text-muted-foreground mt-6">{description}</p>
-          {/* <AddToCart productId={params.id} /> */}
-          <AddToCart />
+          <AddToCart productId={params.id} />
         </div>
       </div>
+
+      {/* REVIEWS */}
+      <ProductReviews productId={params.id} />
+      {reviewDoesnotExist && <SubmitReview productId={params.id} />}
     </section>
   );
 }

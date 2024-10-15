@@ -42,8 +42,7 @@ function ProductsList({ products }: { products: Product[] }) {
             </Link>
             {/* favorite product */}
             <div className="absolute bottom-8 right-8 z-5">
-              <FavoriteToggleButton />
-              {/* <FavoriteToggleButton productId={productId} /> */}
+              <FavoriteToggleButton productId={productId} />
             </div>
           </article>
         );
